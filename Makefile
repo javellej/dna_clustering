@@ -1,12 +1,19 @@
 CXX=/usr/bin/g++
-CPPFLAGS=-std=c++0x -O2
-SRC=src/main.cpp src/Tools.cpp
 INC=-Iinc/
+CPPFLAGS=-std=c++0x -O2 -Iinc/
+OBJ=src/main.o src/Tools.o src/Guide.o src/DataSet.o src/Math.o
+LIB=-Llib/ -ldlib -lboost_graph
 
-all: main
+all: deskGen
 
-main: $(SRC)
-	$(CXX) $(CPPFLAGS) -o deskGen $(SRC) $(INC)
+%.o: %.c
+		$(CXX) -c -o $@ $< $(CPPFLAGS)
+
+deskGen: $(OBJ)
+		$(CXX) -o $@ $^ $(CPPFLAGS) $(LIB)
 
 clean:
 	rm -f deskGen
+
+cleanall:
+	rm -f src/*.o

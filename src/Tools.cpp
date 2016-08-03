@@ -1,4 +1,5 @@
 #include <Tools.hpp>
+#include <Guide.hpp>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -6,38 +7,41 @@
 
 using namespace std;
 
-vector<double> Tools::splitString( const string& str) {
-    vector<double> values;
-    istringstream iss( str); // Turn the string into a stream.
+Guide Tools::splitString( const string& str) {
+    vector<double> rawData;
     string geneStr, guideStr, seqStr;
     double val;
+    // Turn the string into a stream.
+    istringstream iss( str);
+    // get string data at the beginning of the file
     iss >> geneStr >> guideStr >> seqStr;
-    //cout << "gene : " << geneStr << endl;
-    //cout << "guide id : " << guideStr << endl;
-    //cout << "sequence : " << seqStr << endl;
     while ( iss >> val ) {
-    //    cout << val << " ";
-        values.push_back( val);
+        rawData.push_back( val);
     }
-    //cout << endl;
-    return values;
+    Guide guide( rawData);
+    guide.setId( guideStr);
+    guide.setGene( geneStr);
+    guide.setSequence( seqStr);
+    return guide;
 }
 
-vector< vector<double> > Tools::readFile( const string& fileName) {
+vector<Guide> Tools::readFile( const string& fileName) {
     ifstream inputFile( fileName.c_str(), ifstream::in);
     if ( inputFile.good() == 0 ) {
         cout << "Error - Bad file name" << endl;
         throw 1;
     }
-    vector< vector<double> > points;
+    vector<Guide> guides;
     string line;
+    bool isFirstLine = true;
     while ( getline( inputFile, line) ) {
-        vector<double> point = splitString( line);
-        if ( point.size() != 0 ) {
-            points.push_back( splitString( line));
+        if ( isFirstLine ) {
+            isFirstLine = false;
+            continue;
         }
+        guides.push_back( splitString( line));
     }
-    return points;
+    return guides;
 }
 
 void Tools::writeFile( const string& fileName, vector< vector<double> > points) {
