@@ -33,12 +33,12 @@ vector<Guide> Tools::readFile( const string& fileName) {
     }
     vector<Guide> guides;
     string line;
-    bool isFirstLine = true;
+    //bool isFirstLine = true;
     while ( getline( inputFile, line) ) {
-        if ( isFirstLine ) {
+        /*if ( isFirstLine ) {
             isFirstLine = false;
             continue;
-        }
+        }*/
         guides.push_back( splitString( line));
     }
     return guides;

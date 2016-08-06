@@ -34,7 +34,7 @@ double DataSet::squareDistance( vector<double> x) {
 
 bool DataSet::connectedPoints( int indexA, int indexB) {
     int dim = this->dataPoints[indexA].size();
-    int numSampledPoints = 20;
+    int numSampledPoints = 10;
     for ( int i=1; i<numSampledPoints; i++ ) {
         // sample point
         vector<double> sampledPoint;
@@ -59,6 +59,7 @@ void DataSet::computeClusters( ) {
     }
     // define kernel matrix (quadratic semidefinite positive form) and diagonal vector for optimization problem
     // TODO : create private members
+    cout << "BEGIN kernel matrix creation" << endl;
     this->Q.set_size( n, n);
     dlib::matrix<double> b;
     b.set_size( n, 1);
@@ -68,14 +69,17 @@ void DataSet::computeClusters( ) {
             this->Q( i, j) = Math::gaussianKernel( this->dataPoints[i], this->dataPoints[j]);
         }
     }
+    cout << "END kernel matrix creation" << endl;
     // call SMO solver from dlib
+    cout << "BEGIN optimization" << endl;
     double eps = 0.0000001; // precision of optimization
     int maxIter = 100000;
     double numIter = dlib::solve_qp_using_smo( this->Q, -2*b, this->alpha, eps, maxIter); // according to the Wolfe dual
     cout << "numIter : " << numIter << endl;
-    for ( int i=0; i<n; i++ ) {
+    /*for ( int i=0; i<n; i++ ) {
         cout << this->alpha( i) << endl;
-    }
+    }*/
+    cout << "END optimization" << endl;
     // compute quadratic term needed for radius and distance computation
     this->quadraticTerm = 0;
     for ( int i=0; i<n; i++ ) {
@@ -93,6 +97,7 @@ void DataSet::computeClusters( ) {
     }
     cout << "sphere square radius : " << this->squareRadius << endl;
     // create graph of connected data points
+    cout << "BEGIN graph creation" << endl;
     typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS> Graph;
     Graph g( n);
     for ( int i=0; i<n; i++ ) {
@@ -102,9 +107,12 @@ void DataSet::computeClusters( ) {
             }
         }
     }
+    cout << "END graph creation" << endl;
     // separate connected components of the graph
+    cout << "BEGIN compute connected components" << endl;
     vector<int> components( n);
     int numClusters = boost::connected_components( g, &components[0]);
+    cout << "END compute connected components" << endl;
     cout << "graph : " << boost::num_vertices( g) << " vertices and " << boost::num_edges( g) << " edges " << numClusters << " components" << endl;
     this->numClusters = numClusters;
 }
