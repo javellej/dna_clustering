@@ -1,6 +1,7 @@
 #include <DataSet.hpp>
 #include <Guide.hpp>
 #include <Math.hpp>
+#include <Parameters.hpp>
 #include <dlib/optimization.h>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/connected_components.hpp>
@@ -34,7 +35,7 @@ double DataSet::squareDistance( vector<double> x) {
 
 bool DataSet::connectedPoints( int indexA, int indexB) {
     int dim = this->dataPoints[indexA].size();
-    int numSampledPoints = 10;
+    int numSampledPoints = NUM_SAMPLED_POINTS;
     for ( int i=1; i<numSampledPoints; i++ ) {
         // sample point
         vector<double> sampledPoint;
@@ -72,9 +73,9 @@ void DataSet::computeClusters( ) {
     cout << "END kernel matrix creation" << endl;
     // call SMO solver from dlib
     cout << "BEGIN optimization" << endl;
-    double eps = 0.0000001; // precision of optimization
-    int maxIter = 100000;
-    double numIter = dlib::solve_qp_using_smo( this->Q, -2*b, this->alpha, eps, maxIter); // according to the Wolfe dual
+    double eps = OPTIMIZATION_PRECISION; // precision of optimization
+    int maxIter = OPTIMIZATION_MAX_ITER;
+    double numIter = dlib::solve_qp_using_smo( this->Q, 2*b, this->alpha, eps, maxIter); // according to the Wolfe dual
     cout << "numIter : " << numIter << endl;
     /*for ( int i=0; i<n; i++ ) {
         cout << this->alpha( i) << endl;
@@ -115,6 +116,13 @@ void DataSet::computeClusters( ) {
     cout << "END compute connected components" << endl;
     cout << "graph : " << boost::num_vertices( g) << " vertices and " << boost::num_edges( g) << " edges " << numClusters << " components" << endl;
     this->numClusters = numClusters;
+    this->clusters.resize( numClusters);
+    for ( int i=0; i<n; i++ ) {
+        this->clusters[components[i]].push_back( guides[i]);
+    }
+    for ( int i=0; i<numClusters; i++ ) {
+        cout << "cluster " << i << " : size " << this->clusters[i].size() << endl;
+    }
 }
 
 int DataSet::getNumClusters( ) {

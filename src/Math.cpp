@@ -1,10 +1,11 @@
 #include <Math.hpp>
+#include <Parameters.hpp>
 #include <math.h>
 #include <iostream>
 
 using namespace std;
 
-double Math::q = 40;
+double Math::q = GAUSSIAN_KERNEL_PARAM;
 
 double Math::norm2( vector<double> x) {
     int squareNorm = 0;
