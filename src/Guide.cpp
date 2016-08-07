@@ -21,6 +21,10 @@ void Guide::setSequence( const string& seqStr) {
     this->sequence = seqStr;
 }
 
+string Guide::getSequence( ) {
+    return this->sequence;
+}
+
 void Guide::computeActivities( ) {
     this->activities.push_back( log( this->point[0] / this->point[1] ));
     this->activities.push_back( log( this->point[0] / this->point[3] ));

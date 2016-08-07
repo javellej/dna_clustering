@@ -22,6 +22,7 @@ public:
     void setId( const string& idStr);
     void setGene( const string& geneStr);
     void setSequence( const string& seqStr);
+    string getSequence( );
     void computeActivities( );
     double getActivity( int index);
 private:

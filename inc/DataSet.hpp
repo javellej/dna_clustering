@@ -15,6 +15,7 @@ public:
     bool connectedPoints( int indexA, int indexB);
     void computeClusters( );
     int getNumClusters( );
+    vector< vector<Guide> > getClusters();
 private:
     vector<Guide> guides;
     int numPoints;

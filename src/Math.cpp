@@ -7,12 +7,12 @@ using namespace std;
 
 double Math::q = GAUSSIAN_KERNEL_PARAM;
 
-double Math::norm2( vector<double> x) {
+double Math::sqNorm2( vector<double> x) {
     int squareNorm = 0;
     for ( int i=0; i<x.size(); i++ ) {
         squareNorm += x[i]*x[i];
     }
-    return sqrt( squareNorm);
+    return squareNorm;
 }
 
 double Math::gaussianKernel( vector<double> x1, vector<double> x2) {
@@ -25,5 +25,5 @@ double Math::gaussianKernel( vector<double> x1, vector<double> x2) {
     for ( int i=0; i<n; i++ ) {
         diffVect.push_back( x1[i] - x2[i]);
     }
-    return exp( - Math::q * Math::norm2( diffVect));
+    return exp( - Math::q * Math::sqNorm2( diffVect));
 }

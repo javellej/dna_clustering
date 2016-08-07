@@ -128,3 +128,7 @@ void DataSet::computeClusters( ) {
 int DataSet::getNumClusters( ) {
     return this->numClusters;
 }
+
+vector< vector<Guide> > DataSet::getClusters( ) {
+    return this->clusters;
+}

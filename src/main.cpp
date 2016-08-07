@@ -1,6 +1,7 @@
 #include <Tools.hpp>
 #include <Guide.hpp>
 #include <DataSet.hpp>
+#include <LogReg.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -27,6 +28,10 @@ int main( int argc, const char * argv[]) {
     DataSet data( guides);
     data.computeClusters();
     cout << data.getNumClusters() << " clusters found" << endl;
+    // print clusters
+    LogReg lr( data.getClusters());
+    lr.printClusters();
+    lr.computeStatistics();
     return 0;
 }
 
