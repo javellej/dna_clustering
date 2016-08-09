@@ -22,13 +22,15 @@ public:
     void setId( const string& idStr);
     void setGene( const string& geneStr);
     void setSequence( const string& seqStr);
-    string getSequence( );
+    uint64_t getSequence( );
     void computeActivities( );
+    vector<double> getActivities();
     double getActivity( int index);
+    string getId( );
 private:
     string id;
     string gene;
-    string sequence;
+    uint64_t sequence; // compressed encoding of a AA sequence
     vector<double> point;
     // this vector contains variables corresponding to the activities we chose to study
     vector<double> activities; // ( 0_7_N, 0_14_N, 7_14_N, 0_7_D, 0_14_D, 7_14_D)

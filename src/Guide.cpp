@@ -18,10 +18,23 @@ void Guide::setGene( const string& geneStr) {
 }
 
 void Guide::setSequence( const string& seqStr) {
-    this->sequence = seqStr;
+    const char *seqChar = seqStr.c_str();
+    uint64_t encodedSequence = 0;
+    for ( int i=0; i<20; i++ ) {
+        // 'T' is encoded as bits '00'
+        if ( seqChar[i] == 'A' ) {
+            encodedSequence += 1;
+        } else if ( seqChar[i] == 'G' ) {
+            encodedSequence += 2;
+        } else if ( seqChar[i] == 'C' ) {
+            encodedSequence += 3;
+        }
+        encodedSequence <<= 2;
+    }
+    this->sequence = encodedSequence;
 }
 
-string Guide::getSequence( ) {
+uint64_t Guide::getSequence( ) {
     return this->sequence;
 }
 
@@ -34,6 +47,14 @@ void Guide::computeActivities( ) {
     this->activities.push_back( log( this->point[1] / this->point[7] ));
 }
 
+vector<double> Guide::getActivities() {
+    return this->activities;
+}
+
 double Guide::getActivity( int index) {
     return this->activities[ index];
+}
+
+string Guide::getId( ) {
+    return this->id;
 }

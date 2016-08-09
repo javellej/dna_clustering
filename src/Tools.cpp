@@ -41,6 +41,7 @@ vector<Guide> Tools::readFile( const string& fileName) {
         }*/
         guides.push_back( splitString( line));
     }
+    cout << guides.size() << endl;
     return guides;
 }
 

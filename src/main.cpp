@@ -8,29 +8,35 @@
 
 int main( int argc, const char * argv[]) {
     std::cout << "Welcome to the DNA clustering program.\n";
-    if ( argc != 2 ) {
-        cout << "Usage : " << argv[0] << " <input file name>" << endl;
+    if ( argc != 3 ) {
+        cout << "Usage : " << argv[0] << " <training file name> <data file name>" << endl;
         throw 1;
     }
-    string inputFile = argv[1];
+    string trainingFile = argv[1];
+    string dataFile = argv[2];
     string outputFile = "outData.txt";
-    if ( inputFile == outputFile ) {
+    if ( ( trainingFile == outputFile ) || ( dataFile == outputFile ) ) {
         cout << "Input and output files are the same" << endl;
         throw 1;
     }
-    vector<Guide> guides = Tools::readFile( inputFile);
+    vector<Guide> trainingGuides = Tools::readFile( trainingFile);
+    vector<Guide> dataGuides = Tools::readFile( dataFile);
     //Tools::writeFile( outputFile, guides);
     // compute guide activities
-    for ( int i=0; i<guides.size(); i++ ) {
-        guides[i].computeActivities();
+    cout << trainingGuides.size() << endl;
+    for ( int i=0; i<trainingGuides.size(); i++ ) {
+        trainingGuides[i].computeActivities();
+    }
+    for ( int i=0; i<dataGuides.size(); i++ ) {
+        dataGuides[i].computeActivities();
     }
     // create data set based on guides and their activities
-    DataSet data( guides);
+    DataSet data( trainingGuides, dataGuides);
     data.computeClusters();
-    cout << data.getNumClusters() << " clusters found" << endl;
+    data.printClusters();
     // print clusters
     LogReg lr( data.getClusters());
-    lr.printClusters();
+    //lr.printClusters();
     lr.computeStatistics();
     return 0;
 }
