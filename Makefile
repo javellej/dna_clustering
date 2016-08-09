@@ -1,4 +1,4 @@
-CXX=/usr/bin/g++
+CXX=g++
 INC=-Iinc/
 CPPFLAGS=-std=c++0x -O2 -Iinc/
 OBJ=src/main.o src/Tools.o src/Guide.o src/DataSet.o src/Math.o src/LogReg.o
