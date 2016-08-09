@@ -21,7 +21,6 @@ int main( int argc, const char * argv[]) {
     }
     vector<Guide> trainingGuides = Tools::readFile( trainingFile);
     vector<Guide> dataGuides = Tools::readFile( dataFile);
-    //Tools::writeFile( outputFile, guides);
     // compute guide activities
     cout << trainingGuides.size() << endl;
     for ( int i=0; i<trainingGuides.size(); i++ ) {
@@ -34,9 +33,9 @@ int main( int argc, const char * argv[]) {
     DataSet data( trainingGuides, dataGuides);
     data.computeClusters();
     data.printClusters();
-    // print clusters
+    // compute statistics
     LogReg lr( data.getClusters());
-    //lr.printClusters();
+    lr.printClusters();
     lr.computeStatistics();
     return 0;
 }

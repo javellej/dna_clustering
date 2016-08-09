@@ -35,7 +35,7 @@ DataSet::DataSet( vector<Guide> trainingGuides, vector<Guide> dataGuides) {
 }
 
 double DataSet::squareDistance( vector<double> x) {
-    // compute second term of equation (13) in ref paper
+    // compute second term of equation (13) in reference paper
     double sum = 0;
     for ( int i=0; i<this->numTrainingPoints; i++ ) {
         sum += alpha( i) * Math::gaussianKernel( this->trainingPoints[i], x);
@@ -90,7 +90,6 @@ void DataSet::computeClusters( ) {
         this->alpha( i) =  initVal;
     }
     // define kernel matrix (quadratic semidefinite positive form) and diagonal vector for optimization problem
-    // TODO : create private members
     cout << "BEGIN kernel matrix creation" << endl;
     this->Q.set_size( n, n);
     dlib::matrix<double> b;
@@ -155,17 +154,12 @@ void DataSet::computeClusters( ) {
     cout << "BEGIN assigning data points to clusters" << endl;
     for ( int i=0; i<this->numDataPoints; i++ ) { // put data points in clusters
         if ( squareDistance( this->dataPoints[i]) <= this->squareRadius ) {
-            //bool isClusterFound = false;
             for ( int j=0; j<numClusters; j++ ) { // parse clusters and check which one the current data point belongs to
                 vector<Guide> currCluster = trainingClusters[j];
-                //for ( int k=0; k<currCluster.size(); j++ ) {
-                    if ( connectedPoints( this->dataPoints[i], currCluster[0].getActivities()) ) {
-                        this->clusters[j].push_back( dataGuides[i]);
-                        //isClusterFound = true;
-                        break;
-                    }
-                //}
-                //if ( isClusterFound ) { break; }
+                if ( connectedPoints( this->dataPoints[i], currCluster[0].getActivities()) ) {
+                    this->clusters[j].push_back( dataGuides[i]);
+                    break;
+                }
             }
         }
     }

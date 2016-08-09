@@ -1,0 +1,29 @@
+#########
+# BUILD #
+#########
+
+This program requires installing g++ dlib and boost libraries. To compile it you must:
+    - build library libdlib.a, create directory "lib/" in the project root and copy "libdlib.a"
+      The source code for dlib can be found here : https://sourceforge.net/projects/dclib/
+    - copy the dlib headers in the directory "inc/dlib/"
+    - type "make" in the project directory
+
+The output executable "deskgen" will be in the project directory. It takes 2 arguments :
+    - 1st argument : training data file
+    - 2nd argument : file containing all the data to analyze according to the training step
+
+
+#######
+# RUN #
+#######
+
+First run the python script "selectData.py" to create a training set out of the data.
+You can edit it by setting 2 parameters :
+    - tolerance : the minimum variability acceptable to consider the data points
+    - density ratio : sets the probability to select a datapoint tha matches the tolerance
+We can play with these parameters to control the size of the training set.
+
+Then run the main program which will use the pre-established training set. Make sure you also specify
+the file containing the data points to cluster them according to the training set.
+
+NOTE : the files given in argument should not start with the explanatory header
