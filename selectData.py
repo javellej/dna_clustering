@@ -3,8 +3,9 @@
 from random import randint
 
 # set tolerance
-r = 0.5
-maxRand = 300
+r = 0.2
+# set density of the selected points (the higher the density ratio the lower the odds to select the data point)
+densityRatio = 10
 
 numLines = 0
 numSelectedLines = 0
@@ -39,7 +40,7 @@ with open('data/example_guide_data.tsv') as inFile, open('data/selected_data.tsv
                 or ( dev_14_N < r ) or ( dev_14_N > 1/r )
                 or ( dev_7_D < r ) or ( dev_7_D > 1/r )
                 or ( dev_14_D < r ) or ( dev_14_D > 1/r ) ):
-            if ( randint( 0, maxRand) == 0 ):
+            if ( randint( 0, densityRatio) == 0 ):
                 numSelectedLines += 1
                 outFile.write( line)
 

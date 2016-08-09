@@ -1,3 +1,3 @@
 set terminal png
-set output 'scatterPlot_8_9.png'
-plot 'sampleData' using 8:9
+set output 'scatterPlot.png'
+plot 'activitiesData' using 3:6

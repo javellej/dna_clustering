@@ -30,10 +30,8 @@ void LogReg::computeStatistics( ) {
             uint64_t seq = this->clusters[i][j];
             // single amino acid
             uint64_t mask = 0x3;
-            //cout << "sequence " << seq << endl;
             for ( int k=0; k<20; k++ ) {
                 uint64_t index = (uint64_t) ( mask & seq ) >> 2*k;
-                //cout << "index " << index << endl;
                 singletons[index]++;
                 mask <<= 2;
             }
@@ -41,7 +39,6 @@ void LogReg::computeStatistics( ) {
             mask = 0xf;
             for ( int k=0; k<19; k++ ) {
                 uint64_t index = (uint64_t) ( mask & seq ) >> 2*k;
-                //cout << "index " << index << endl;
                 pairs[index]++;
                 mask <<= 2;
             }
@@ -49,11 +46,11 @@ void LogReg::computeStatistics( ) {
             mask = 0x3f;
             for ( int k=0; k<18; k++ ) {
                 uint64_t index = (uint64_t) ( mask & seq ) >> 2*k;
-                //cout << "index " << index << endl;
                 triples[index]++;
                 mask <<= 2;
             }
         }
+        cout << "Statistics for cluster " << i << endl;
         cout << "1 amino acid" << endl;
         for ( int j=0; j<4; j++ ) {
             cout << singletons[j] << " ";

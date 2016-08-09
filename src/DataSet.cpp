@@ -13,7 +13,6 @@ using namespace std;
 DataSet::DataSet( vector<Guide> trainingGuides, vector<Guide> dataGuides) {
     this->trainingGuides = trainingGuides;
     this->dataGuides = dataGuides;
-    //cout << "guides size " << guides.size() << endl;
     this->numTrainingPoints = trainingGuides.size();
     for ( int i=0; i<this->numTrainingPoints; i++ ) {
         vector<double> point;
@@ -106,7 +105,6 @@ void DataSet::computeClusters( ) {
     double eps = OPTIMIZATION_PRECISION; // precision of optimization
     int maxIter = OPTIMIZATION_MAX_ITER;
     double numIter = dlib::solve_qp_using_smo( this->Q, 2*b, this->alpha, eps, maxIter); // according to the Wolfe dual
-    cout << "numIter : " << numIter << endl;
     cout << "END optimization" << endl;
     // compute quadratic term needed for radius and distance computation
     this->quadraticTerm = 0;
@@ -123,7 +121,6 @@ void DataSet::computeClusters( ) {
             this->squareRadius = sqDist;
         }
     }
-    cout << "sphere square radius : " << this->squareRadius << endl;
     // create graph of connected data points
     cout << "BEGIN graph creation" << endl;
     typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS> Graph;
@@ -163,7 +160,7 @@ void DataSet::computeClusters( ) {
             }
         }
     }
-    cout << "BEGIN assigning data points to clusters" << endl;
+    cout << "END assigning data points to clusters" << endl;
     for ( int i=0; i<numClusters; i++ ) {
         cout << "cluster " << i << " : size " << this->clusters[i].size() << endl;
     }

@@ -31,6 +31,7 @@ void Guide::setSequence( const string& seqStr) {
         }
         encodedSequence <<= 2;
     }
+    encodedSequence >>= 2;
     this->sequence = encodedSequence;
 }
 
